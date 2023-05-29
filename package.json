@@ -1,0 +1,27 @@
+{
+  "name": "inline-translator",
+  "version": "1.0.0",
+  "description": "This extension can be used as a boilerplate for creating new extensions for Chrome based browsers, like Google Chrome.",
+  "main": "after.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --config webpack.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llagerlof/fresh-chrome-extension.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/llagerlof/fresh-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/llagerlof/fresh-chrome-extension#readme",
+  "dependencies": {
+    "google-translate-free": "^2.4.5",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "webpack-cli": "^5.1.1"
+  }
+}

@@ -1,28 +1,34 @@
 {
-  "name": "Fresh Chrome Extension",
+  "name": "Inline translator",
   "description": "Fully functional, useful bare minimum Google Chrome extension boilerplate [Manifest V3].",
   "homepage_url": "https://github.com/llagerlof/fresh-chrome-extension",
   "version": "2.0.0",
   "manifest_version": 3,
   "action": {
-    "default_title": "execute.js will run (watch the Chrome DevTools' console)"
+    "default_title": "execute.js will run (watch the Chrome DevTools' console)",
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
-      "run_at" : "document_start",
+      "run_at": "document_start",
       "js": ["before.js"],
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ]
+      "css": ["style.css"],
+      "matches": ["https://*/*", "http://*/*"]
     },
     {
-      "run_at" : "document_idle",
+      "run_at": "document_idle",
       "js": ["after.js"],
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ]
+      "css": ["style.css"],
+      "matches": ["https://*/*", "http://*/*"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/assets/delete-button.png",
+        "fonts/Signika-Negative.woff2"
+      ],
+      "matches": ["<all_urls>"]
     }
   ],
   "background": {
@@ -30,10 +36,9 @@
   },
   "permissions": [
     "tabs",
-    "scripting"
+    "scripting",
+    "http://fonts.googleapis.com/",
+    "https://fonts.googleapis.com/"
   ],
-  "host_permissions": [
-    "https://*/*",
-    "http://*/*"
-  ]
+  "host_permissions": ["https://*/*", "http://*/*"]
 }
