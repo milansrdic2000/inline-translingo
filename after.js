@@ -1,4 +1,6 @@
 // this code will be executed after page load
+
+let isEnabled = false
 async function translateText(toTranslate) {
   const result = await fetch(
     `https://api.mymemory.translated.net/get?q=${toTranslate}!&langpair=en|sr&de=milansrdic2000@gmail.com`
@@ -14,9 +16,6 @@ async function translateText(toTranslate) {
 ;(function () {
   // const popupContainer = document.querySelector('.popup-container')
 
-  console.log(
-    `chrome-extension://gdpbgallaljlacileeakjjleefjlmjpj/fonts/Signika-Negative.woff2`
-  )
   const popupContainer = document.createElement('div')
   popupContainer.classList.add('not-visible')
   //kreiranje paragrafa
@@ -60,33 +59,36 @@ async function translateText(toTranslate) {
       popupContainer.style.bottom = 'auto'
       popupContainer.style.transform = 'translateX(-50%)'
 
-      //prikazujemo popup
-      popupContainer.classList.remove('not-visible')
+      //prikazujemo popup, ako je ukljuceno
+      console.log(isEnabled)
+      if (isEnabled) {
+        popupContainer.classList.remove('not-visible')
 
-      const popupRect = popupContainer.getBoundingClientRect()
+        const popupRect = popupContainer.getBoundingClientRect()
 
-      //Ako prozor izadje van viewporta ekrana, moramo da ga vratimo
-      if (popupRect.left < 0) {
-        popupContainer.style.left = popupRect.width / 2 + 20 + 'px'
+        //Ako prozor izadje van viewporta ekrana, moramo da ga vratimo
+        if (popupRect.left < 0) {
+          popupContainer.style.left = popupRect.width / 2 + 20 + 'px'
+        }
+        //Ako overflovuje desno
+
+        if (window.innerWidth < popupRect.right) {
+          // alert('svice')
+          popupContainer.style.right = '20px'
+          popupContainer.style.transform = 'translateX(0%)'
+          popupContainer.style.left = 'auto'
+        }
+        //ako overflovuje dole
+
+        console.log('bottom overflow:', window.innerHeight, popupRect.bottom)
+        if (window.innerHeight < popupRect.bottom) {
+          popupContainer.style.bottom = '20px'
+
+          popupContainer.style.top = 'auto'
+        }
+        const text = await translateText(window.getSelection())
+        translatedText.innerText = text
       }
-      //Ako overflovuje desno
-
-      if (window.innerWidth < popupRect.right) {
-        // alert('svice')
-        popupContainer.style.right = '20px'
-        popupContainer.style.transform = 'translateX(0%)'
-        popupContainer.style.left = 'auto'
-      }
-      //ako overflovuje dole
-
-      console.log('bottom overflow:', window.innerHeight, popupRect.bottom)
-      if (window.innerHeight < popupRect.bottom) {
-        popupContainer.style.bottom = '20px'
-
-        popupContainer.style.top = 'auto'
-      }
-      const text = await translateText(window.getSelection())
-      translatedText.innerText = text
     } else {
       popupContainer.classList.add('not-visible')
     }
@@ -94,7 +96,7 @@ async function translateText(toTranslate) {
   //close popup
 
   let closePopup = function () {
-    popupContainer.classList.toggle('not-visible')
+    popupContainer.classList.add('not-visible')
     console.log('Closed translate popup...')
   }
 
@@ -107,4 +109,18 @@ async function translateText(toTranslate) {
   document.addEventListener('mouseup', showPopup)
 
   closeButton.addEventListener('click', closePopup)
+
+  //komunikacija
+  chrome.runtime.onMessage.addListener(function (
+    message,
+    sender,
+    sendResponse
+  ) {
+    if (message.type === 'turn') {
+      isEnabled = message.enabled
+    }
+    if (message.type === 'checkEnabled') {
+      sendResponse(isEnabled)
+    }
+  })
 })()

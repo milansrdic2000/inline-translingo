@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'Signika Negative';
+  font-style: normal;
+  font-weight: 400;
+  src: url('chrome-extension://gdpbgallaljlacileeakjjleefjlmjpj/fonts/Signika-Negative.woff2')
+    format('woff2');
+}
+
+.popup-container {
+  /* background-color: #ccbeff; */
+  min-width: 230px;
+  height: 300px;
+
+  cursor: pointer;
+  /* border-radius: 5px; */
+  padding: 10px 20px;
+  font-family: 'Signika Negative' !important;
+}
+
+.extension-title {
+  display: flex;
+  margin: 0 auto;
+}
+.extension-title h2 {
+  text-align: left;
+  margin-top: 15px;
+  margin-left: 15px;
+  font-size: 2rem;
+}
+.extension-title h2 span {
+  color: #ccbeff;
+}
+.extension-title img {
+  width: 60px;
+  height: 60px;
+}
+.popup-container h4 {
+  margin: 0px;
+  margin-top: 10px;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.toggler {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggler-item {
+  width: 45%;
+  height: 100px;
+  background-color: #ccbeff;
+  position: relative;
+  /* z-index: -1; */
+  overflow: hidden;
+
+  margin-right: 5%;
+}
+.toggler-text {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.toggler-item:after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  height: 550%;
+  width: 550%;
+  background-color: #e5e0fa;
+  border-radius: 50%;
+  transition: all 0.5s linear;
+  /* z-index: 2; */
+}
+
+.toggler-item:hover:after {
+  top: 0%;
+  left: 0%;
+}
+.active-toggler:after {
+  content: '';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0%;
+  left: 0%;
+}
+/* da bismo obrisali default marginu */
+body {
+  margin: 3px !important;
+}
